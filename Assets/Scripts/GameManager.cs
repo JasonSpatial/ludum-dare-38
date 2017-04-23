@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+	public static GameManager instance;
+
 	public LevelController levelController;
 	public ModalController modalController;
 	public LevelManager levelManager;
@@ -32,6 +34,14 @@ public class GameManager : MonoBehaviour {
 	public static GameObject planetTo;
 	public GameObject homePlanet;
 	public GameObject planetContainer;
+
+	void Awake() {
+		if(instance != null) {
+			Destroy(gameObject);
+		} else {
+			instance = this;
+		}
+	}
 
 	void Start () {
 		levelController.GenerateWorld();
@@ -85,7 +95,7 @@ public class GameManager : MonoBehaviour {
 		return galacticPopulation;
 	}
 
-	public static void TransferPopulation() {
+	public void TransferPopulation() {
 		PlanetController fpc = planetFrom.GetComponent<PlanetController>();
 		PlanetController tpc = planetTo.GetComponent<PlanetController>();
 		

@@ -21,7 +21,7 @@ public class PlanetController : MonoBehaviour {
 			transform.localScale = new Vector3(transform.localScale.x * 1.25f, transform.localScale.y * 1.25f, transform.localScale.z * 1.25f);
 		} else {
 			GameManager.planetTo = gameObject;
-			GameManager.TransferPopulation();
+			GameManager.instance.TransferPopulation();
 		}
 
 		UIController.ui.UpdateSelectedPlanetInfo(this);
