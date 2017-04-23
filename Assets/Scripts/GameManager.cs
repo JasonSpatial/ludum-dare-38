@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour {
 
 		if(populationCount > homeTargetPopulation) {
 			// YOU LOSE
-			levelManager.LoadLevel("Lose");
+			levelManager.LoadLevel("Game Over");
 		}
 	
 	}
