@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour {
 	public Text stardate;
 	public Text populationLabel;
 	public Text identificationLabel;
+	
+	public int homeStartingPopulation = 0;
+	public long homeTargetPopulation = 12000000000;
+	public long moveHintPopulation = 5000000000;
 
 	private int timer;
 	private int populationCount;
@@ -24,36 +28,25 @@ public class GameManager : MonoBehaviour {
 	void Start () {
 		levelController.GenerateWorld();
 		modalController.showModal("Your world, sire.");
+
+		InvokeRepeating("UpdateWorld", 0.01f, 1.0f);
+
 	}
-	
-	void Update () {
+
+	void UpdateWorld() {
 		// pause time when showing a modal
 		if(!modalController.showingModal){
 			stardate.text = "Stardate: " + getStardate();
 			homePopulation.text = "Home Population: " + getHomePopulation();
 		}
 
-		if(populationCount > 50000000){
+		if(populationCount > moveHintPopulation){
 			if(!growthHintShown){
 				modalController.showModal("It's time to move some of your peeps, sire.");
 			}
 			growthHintShown = true;
 		}
 	}
-
-	// public void PlanetClicked(GameObject planet) {
-	// 	if(!planetFrom){
-	// 		planetFrom = planet;
-	// 	} else {
-	// 		planetTo = planet;
-	// 		TransferPopulation();
-	// 	}
-	// 	print("population: " + planet.GetComponent<PlanetController>().population.ToString());
-	// 	print("identifier: " + planet.GetComponent<PlanetController>().identifier.ToString());
-
-	// 	populationLabel.text = "Population: " + planet.GetComponent<PlanetController>().population.ToString();
-	// 	identificationLabel.text = "Planet Identification" + planet.GetComponent<PlanetController>().identifier.ToString();
-	// }
 
 	public static void TransferPopulation() {
 		PlanetController fpc = planetFrom.GetComponent<PlanetController>();
