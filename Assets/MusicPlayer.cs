@@ -2,7 +2,7 @@
 
 public class MusicPlayer : MonoBehaviour {
 
-	static MusicPlayer instance = null;
+	public static MusicPlayer instance = null;
 
 	void Awake() {
 		if(instance != null) {

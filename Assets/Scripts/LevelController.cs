@@ -7,7 +7,7 @@ public class LevelController : MonoBehaviour {
 	public GameObject planetPrefab;
 	public GameObject homeWorld;
 	public int numberOfPlanets;
-
+	public GameObject planetContainer;
 
 	public void GenerateWorld() {
 		GenerateSystem(homeWorld.transform.position, 45.0f, 60.0f);
@@ -17,7 +17,9 @@ public class LevelController : MonoBehaviour {
 		float lastDistance = 0.0f;
 
 		for (int i = 0; i < numberOfPlanets; ++i) {
-			GameObject new_planet = Instantiate(planetPrefab);
+			GameObject new_planet = Instantiate(planetPrefab, planetContainer.transform);
+			new_planet.transform.parent = planetContainer.transform;
+
             float randScaleFactor = Random.Range(10.0f, 40.0f);
 
             new_planet.transform.localScale *= randScaleFactor;

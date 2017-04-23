@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlanetController : MonoBehaviour {
 
 
-	public int population;
+	public ulong population;
 	public string identifier = "My planet, foo";
 
 	private Vector3 myScale;
@@ -27,11 +27,11 @@ public class PlanetController : MonoBehaviour {
 		UIController.ui.UpdateSelectedPlanetInfo(this);
 	}
 
-	public void receivePopulation(int populationToAdd){
+	public void receivePopulation(ulong populationToAdd){
 		population = population + populationToAdd;
 	}
 
-	public void distributePopulation(int populationToDistribute){
+	public void distributePopulation(ulong populationToDistribute){
 		population = population - populationToDistribute;
 		transform.localScale = myScale;
 	}
