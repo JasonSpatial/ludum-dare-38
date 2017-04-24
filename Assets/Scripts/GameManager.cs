@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
 		levelController.GenerateWorld();
-		modalController.showModal("Your world, sire.");
+		modalController.showModal("This is your reachable space. Your planet is in the center. Click your planet to start a transfer. Click a destination to complete the transfer.\rTime will start when you dismiss this window.");
 		homePlanet.GetComponent<PlanetController>().population = homeStartingPopulation;
 
 		InvokeRepeating("UpdateWorld", 0.01f, growthSpeed);
