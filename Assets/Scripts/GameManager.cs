@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
 
 		if(populationCount > moveHintPopulation){
 			if(!growthHintShown){
-				modalController.showModal("It's time to move some of your peeps, sire.");
+				modalController.showModal("Your planet's population is growing rapidly.\rMove your people off to other planets.");
 			}
 			growthHintShown = true;
 		}

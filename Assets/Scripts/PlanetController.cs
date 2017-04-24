@@ -32,7 +32,12 @@ public class PlanetController : MonoBehaviour {
 	}
 
 	public void distributePopulation(ulong populationToDistribute){
-		population = population - populationToDistribute;
+		if(tag == "Home"){
+			
+			population = population - (ulong)Mathf.Clamp(populationToDistribute, 0, population - 2);
+		} else {
+			population = population - populationToDistribute;
+		}
 		ResetScale();
 	}
 
