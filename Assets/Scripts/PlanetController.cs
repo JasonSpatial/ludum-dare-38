@@ -28,12 +28,15 @@ public class PlanetController : MonoBehaviour {
 	}
 
 	public void receivePopulation(ulong populationToAdd){
-		population = population + populationToAdd;
+		print("populationToAdd: " + populationToAdd);
+		if(populationToAdd > 0) {
+			GetComponent<AudioSource>().Play();
+			population = population + populationToAdd;
+		}
 	}
 
 	public void distributePopulation(ulong populationToDistribute){
-		if(tag == "Home"){
-			
+		if(tag == "Home"){			
 			population = population - (ulong)Mathf.Clamp(populationToDistribute, 0, population - 2);
 		} else {
 			population = population - populationToDistribute;

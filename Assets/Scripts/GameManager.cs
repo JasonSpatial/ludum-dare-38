@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour {
 			fpc.ResetScale();
 		} else {
 			fpc.distributePopulation(localTransferSize);
-			tpc.receivePopulation(localTransferSize);
+			tpc.receivePopulation(localTransferSize);			
 		}
 
 		if(fpc.tag == "Home"){
