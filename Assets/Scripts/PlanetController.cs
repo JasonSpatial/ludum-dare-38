@@ -33,6 +33,10 @@ public class PlanetController : MonoBehaviour {
 
 	public void distributePopulation(ulong populationToDistribute){
 		population = population - populationToDistribute;
+		ResetScale();
+	}
+
+	public void ResetScale() {
 		transform.localScale = myScale;
 	}
 }

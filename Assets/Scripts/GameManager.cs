@@ -18,11 +18,14 @@ public class GameManager : MonoBehaviour {
 	public Text galacticPopulationLabel;
 	
 	public float growthSpeed = 5.0f;
+	public float growthFactor = 1.11f;
 	public ulong homeStartingPopulation = 2;
 	public ulong homeTargetPopulation = 12000000000;
 	public ulong moveHintPopulation = 5000000000;
 	public ulong closeToDeathPopulation = 10000000000;
+	public ulong transferSize = 500000;
 	public ulong galacticPopulation = 0;
+
 
 	private int timer;
 	private ulong populationCount;
@@ -55,9 +58,9 @@ public class GameManager : MonoBehaviour {
 	void UpdateWorld() {
 		// pause time when showing a modal
 		if(!modalController.showingModal){
-			stardate.text = "Stardate: " + getStardate();
-			homePopulation.text = "Home Population: " + abbreviateNumber(getHomePopulation());
-			galacticPopulationLabel.text = "Galactic Population: " + abbreviateNumber(CalculatePopulation());
+			stardate.text = "Stardate: " + GetStardate();
+			UpdateHomePopulation(GetHomePopulation());
+			galacticPopulationLabel.text = "Galactic Population: " + AbbreviateNumber(CalculatePopulation());
 		}
 
 		if(populationCount > moveHintPopulation){
@@ -80,6 +83,10 @@ public class GameManager : MonoBehaviour {
 	
 	}
 
+	void UpdateHomePopulation(ulong newPopulation) {
+		homePopulation.text = "Home Population: " + AbbreviateNumber(newPopulation);
+	}
+
 	ulong CalculatePopulation() {
 		PlanetController[] planets = planetContainer.GetComponentsInChildren<PlanetController>();
 		print("planets: " + planets.Length);
@@ -98,20 +105,36 @@ public class GameManager : MonoBehaviour {
 	public void TransferPopulation() {
 		PlanetController fpc = planetFrom.GetComponent<PlanetController>();
 		PlanetController tpc = planetTo.GetComponent<PlanetController>();
-		
-		fpc.distributePopulation(500000);
-		tpc.receivePopulation(500000);
+		ulong localTransferSize;
+
+		transferSize *= (ulong)growthFactor;
+		if(fpc.population < transferSize) {
+			localTransferSize = fpc.population;
+		} else {
+			localTransferSize = transferSize;
+		}
+
+		if(tpc.tag == "Home") {
+			fpc.ResetScale();
+		} else {
+			fpc.distributePopulation(localTransferSize);
+			tpc.receivePopulation(localTransferSize);
+		}
+
+		if(fpc.tag == "Home"){
+			UpdateHomePopulation(homePlanet.GetComponent<PlanetController>().population);
+		}
 
 		planetFrom = null;
 		planetTo = null;
 	}
 
-	int getStardate(){
+	int GetStardate(){
 		return timer++;
 	}
 
-	ulong getHomePopulation() {
-		homePlanet.GetComponent<PlanetController>().population += (ulong)Mathf.Ceil(homePlanet.GetComponent<PlanetController>().population * 1.11f);
+	ulong GetHomePopulation() {
+		homePlanet.GetComponent<PlanetController>().population = (ulong)Mathf.Ceil(homePlanet.GetComponent<PlanetController>().population * growthFactor);
 		populationCount = homePlanet.GetComponent<PlanetController>().population;
 		return populationCount;
 	}
@@ -125,7 +148,7 @@ public class GameManager : MonoBehaviour {
 		"Q"
 	};
 
-	string abbreviateNumber(ulong num) {
+	string AbbreviateNumber(ulong num) {
 		if (num < 1000) {
 			return num.ToString();
 		}
